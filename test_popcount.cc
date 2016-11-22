@@ -6,8 +6,7 @@
 
 #include <unistd.h>
 
-#include "try.h"
-#include "timer.h"
+#include <late/timer.h>
 #include "popcount.h"
 
 template <typename T, unsigned char (*F)(T)>
@@ -15,7 +14,7 @@ float do_test(unsigned t) {
   const unsigned iterations = 1e6;
   unsigned operations = 0;
 
-  timer_process pt;
+  late::timer_process pt;
   do {
     ++operations;
     for (unsigned i = 0 ; i < iterations ; ++i)

@@ -19,7 +19,7 @@ float do_test(unsigned t) {
     ++operations;
     for (unsigned i = 0 ; i < iterations ; ++i)
       volatile bits_t x = F(lrand48());
-  } while (!pt.alarm(t));
+  } while (!pt.alarm((time_t)t));
 
   return (operations * iterations) / pt.elapsed();
 };

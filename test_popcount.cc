@@ -7,7 +7,11 @@
 #include <unistd.h>
 
 #include <late/timer.h>
+#include <lace/random.h>
+#include <lace/singleton.h>
 #include "popcount.h"
+
+lace::random & rng = lace::singleton<lace::random>().instance();
 
 template <typename T, unsigned char (*F)(T)>
 float do_test(unsigned t) {
@@ -18,7 +22,7 @@ float do_test(unsigned t) {
   do {
     ++operations;
     for (unsigned i = 0 ; i < iterations ; ++i)
-      volatile bits_t x = F(lrand48());
+      volatile bits_t x = F(rng.l());
   } while (!pt.alarm((time_t)t));
 
   return (operations * iterations) / pt.elapsed();
@@ -26,10 +30,9 @@ float do_test(unsigned t) {
 
 int
 main(int, char*[]) {
-  srand48(getpid());
 
   for (unsigned i = 0 ; i < 4096 ; ++i) {
-    long x = lrand48();
+    long x = rng.l();
     assert(count_mask(x) == count_shift_mask(x));
     assert(count_shift_mask(x) == count_shift(x));
     assert(count_shift(x) == count_and_shear(x));

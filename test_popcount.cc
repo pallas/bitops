@@ -11,7 +11,7 @@
 #include <lace/singleton.h>
 #include "popcount.h"
 
-lace::random & rng = lace::singleton<lace::random>().instance();
+lace::random & rng = lace::singleton<lace::random>::instance();
 
 template <typename T, unsigned char (*F)(T)>
 float do_test(unsigned t) {
